@@ -3,6 +3,7 @@ fetch("input2.txt")
   .then((res) => {
     const colours = ["red", "green", "blue"];
     const games = parseData(res, colours);
+    console.log(games)
     // const result = getValidGameIds(games);
     const result = getPowers(games, colours);
     const total = result.reduce((acc, cv) => acc + cv, 0);
