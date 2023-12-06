@@ -1,49 +1,34 @@
 let numHasBeenAdded;
 
-fetch("input3.txt")
+fetch("day3/input3.txt")
   .then((res) => res.text())
   .then((res) => {
-    const structured = res.split("\r\n").map((row) => structureData(row.split("")));
-    // secondPart(structured);
-
+    const structured = res.split("\n").map((row) => structureData(row.split("")));
     const result1 = firstPart(structured);
-    console.log(result1);
+    const result2 = secondPart(structured);
+    console.log(result1, result2);
   })
   .catch((e) => console.log(e));
 
 function secondPart (structured) {
-  console.log(structured);
+  let gearRatios = [];
   structured.forEach((row, i) => {
     row.symbols.forEach((symbol) => {
       if (symbol.value === "*") {
-        const allFoundNums = [];
+        const touchingNums = [];
         const gearIndex = symbol.index;
-
-        // check for same row matches
         row.nums.forEach((num) => {
-          if ((num.indexes[0] - 1 === gearIndex) || (num.indexes[num.indexes.length - 1] + 1 === gearIndex)) allFoundNums.push(num.value);
+          if ((num.indexes[0] - 1 === gearIndex) || (num.indexes[num.indexes.length - 1] + 1 === gearIndex)) touchingNums.push(Number(num.value));
         })
-
-        // check for prev row matches
-        const prevRow = structured[i - 1];
-        prevRow.nums.forEach((prevNum) => {
-          for (let j = 0; j < prevNum.indexes.length; j++) {
-            if ((prevNum.indexes[j] - 1 === gearIndex)
-              || (prevNum.indexes[j] + 1 === gearIndex)
-              || (prevNum.indexes[j] === gearIndex)) {
-                allFoundNums.push(prevNum.value);
-                break;
-              }
-          }
-        })
-        console.log(allFoundNums)
-
-
-
-
+        compareRowForGear (structured[i - 1], gearIndex, touchingNums)
+        compareRowForGear (structured[i + 1], gearIndex, touchingNums)
+        if (touchingNums.length === 2) {
+          gearRatios.push(touchingNums[0] * touchingNums[1]);
+        }
       }
     })
   })
+  return gearRatios.reduce((agg, cv) => agg + cv, 0);
 }
 
 
@@ -111,4 +96,23 @@ function compareRows (row, compareRow, partNums, i, j) {
   }
 }
 
+function compareRowForGear (compareRow, gearIndex, touchingNums) {
+  compareRow.nums.forEach((compareNum) => {
+    for (let j = 0; j < compareNum.indexes.length; j++) {
+      if ((compareNum.indexes[j] - 1 === gearIndex)
+        || (compareNum.indexes[j] + 1 === gearIndex)
+        || (compareNum.indexes[j] === gearIndex)) {
+          touchingNums.push(Number(compareNum.value));
+          break;
+        }
+    }
+  })
+}
+
 // 550934
+// 81997870
+
+
+// heron
+// 543867
+// 79613331

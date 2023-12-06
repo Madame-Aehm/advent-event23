@@ -1,4 +1,4 @@
-fetch("input2.txt")
+fetch("day2/input2.txt")
   .then((res) => res.text())
   .then((res) => {
     const colours = ["red", "green", "blue"];

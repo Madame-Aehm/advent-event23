@@ -1,4 +1,4 @@
-fetch("input1.txt")
+fetch("day1/input1.txt")
   .then((res) => res.text())
   .then((res) => {
     // console.log(res);
