@@ -7,58 +7,49 @@ fetch("day5/input5.txt")
     // const lowestPartOne = getLowestPartOne(map[0], map);
     // console.log(lowestPartOne);
 
-    const part2Seeds = getPart2SeedsLowest(map); //array too big :(
-    console.log(part2Seeds);
-
-
-
-
-
-
-
-
     // const resultForTestmms = workedForSmallmms(map);
+    console.log(getPart2(map)); 
+
   })
   .catch((e) => console.log(e));
 
-function getPart2SeedsLowest(map) {
-  let currentLowest;
-  
-  // for (let i = 0; i < map[0].length; i = i + 2) {
-  //   for (let mapPoint = 1; mapPoint < map.length; mapPoint++) {
+function getPart2(map) {
+  let currentLowest = getSingleSeedLocation(map[0][0], map);
+  // const low1 = map[0][0] + 1;
+  // const range1 = map[0][1];
 
-  //     const start = map[0][i];
-  //     const range = map[0][i + 1];
-  
-  //     for (let seed = start; seed < start + range; seed++) {
-  //       let next = seed;
-  //       if (seed === start) {
-  //         map[mapPoint].forEach((mm) => {
-  //           const rangeStart = mm[1];
-  //           const rangeEnd = mm[1] + mm[2];
-  //           const difference = rangeStart - mm[0];
-  //           if ((seed >= rangeStart) && (seed < rangeEnd)) {
-  //             next = seed - difference;
-  //           }
-  //         })
-  //         currentLowest = next
-  //       } else {
-  //         map[mapPoint].forEach((mm) => {
-  //           const rangeStart = mm[1];
-  //           const rangeEnd = mm[1] + mm[2];
-  //           const difference = rangeStart - mm[0];
-  //           if ((seed >= rangeStart) && (seed < rangeEnd)) {
-  //             next = seed - difference;
-  //           }
-  //         })
-  //         if (next < currentLowest) currentLowest = next
-  //       }
-  //     }
-  //   }
-  //   console.log(currentLowest)
+  // for (let i = low1; i < low1 + range1; i++) {
+  //   const location = getSingleSeedLocation(i, map);
+  //   if (location < currentLowest) currentLowest = location;
   // }
-  
-  // return currentLowest
+
+  // const low2 = map[0][2];
+  // const range2 = map[0][3];
+  // for (let i = low2; i < low2 + range2; i++) {
+  //   const location = getSingleSeedLocation(i, map);
+  //   if (location < currentLowest) currentLowest = location;
+  // }
+  return currentLowest
+}
+
+// function returnLowestFromRange (low, range) {
+
+// }
+
+function getSingleSeedLocation(seed, map) {
+  let next = seed;
+  for (let i = 1; i < map.length; i++) {
+    for (let j = 0; j < map[i].length; j++) {
+      const rangeStart = map[i][j][1];
+      const rangeEnd = map[i][j][1] + map[i][j][2] - 1;
+      const difference = rangeStart - map[i][j][0];
+      if ((next >= rangeStart) && (next <= rangeEnd)) {
+        next = next - difference;
+        break;
+      }
+    }
+  }
+  return next
 }
 
 function getLowestPartOne(seedsArray, map) {
