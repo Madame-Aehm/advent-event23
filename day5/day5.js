@@ -16,6 +16,7 @@
 //   })
 //   .catch((e) => console.log(e));
 
+// had to resort to Node to run the function......
 import fs from 'fs';
 
 function start () {
